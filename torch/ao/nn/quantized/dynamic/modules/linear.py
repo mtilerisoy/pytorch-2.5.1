@@ -104,11 +104,22 @@ class Linear(nnq.Linear):
             mod (Module): a float module, either produced by torch.ao.quantization
                           utilities or provided by the user
         """
+
+        # MTI Added These
+        # Quantize the QAT prepared model usin PTQ dynamic quantization
+        from torchao.quantization.qat.linear import Int8DynActInt4WeightQATLinear
+        #
+
         float_modules = [
             torch.nn.Linear,
             torch.nn.modules.linear.NonDynamicallyQuantizableLinear,
             torch.ao.nn.intrinsic.modules.fused.LinearReLU,
             torch.ao.nn.qat.dynamic.Linear,
+            
+            # MTI Added These
+            # Quantize the QAT prepared model usin PTQ dynamic quantization
+            Int8DynActInt4WeightQATLinear,
+            #
         ]
 
         assert (
