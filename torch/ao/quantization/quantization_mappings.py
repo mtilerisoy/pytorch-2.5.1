@@ -26,7 +26,6 @@ from torch.ao.quantization.stubs import DeQuantStub, QuantStub
 from torch.ao.quantization.utils import get_combined_dict
 from torch.nn.utils.parametrize import type_before_parametrizations
 
-
 __all__ = [
     "DEFAULT_REFERENCE_STATIC_QUANT_MODULE_MAPPINGS",
     "DEFAULT_STATIC_QUANT_MODULE_MAPPINGS",
@@ -297,6 +296,13 @@ def get_embedding_qat_module_mappings() -> Dict[Callable, Any]:
 
 def get_default_dynamic_quant_module_mappings() -> Dict[Callable, Any]:
     """Get module mapping for post training dynamic quantization"""
+    
+    # MTI Added These
+    # Quantize the QAT prepared model usin PTQ dynamic quantization
+    from torchao.quantization.qat.linear import Int8DynActInt4WeightQATLinear
+    DEFAULT_DYNAMIC_QUANT_MODULE_MAPPINGS[Int8DynActInt4WeightQATLinear] = nnqd.Linear
+    #
+    
     return DEFAULT_DYNAMIC_QUANT_MODULE_MAPPINGS
 
 
